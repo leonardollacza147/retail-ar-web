@@ -41,7 +41,7 @@ from flask_cors import CORS
 # ══════════════════════════════════════════════════════════════
 # CONFIGURACIÓN — Cambia estos dos valores
 # ══════════════════════════════════════════════════════════════
-GROQ_API_KEY = "TU_KEY_AQUI"
+GROQ_API_KEY = "tu_api_key_de_groq_aquí"
 FIREBASE_JSON = "tecemtf-firebase-adminsdk-fbsvc-198f0af12b.json"
 # ══════════════════════════════════════════════════════════════
 

@@ -54,15 +54,14 @@ export function ProductCard({ product }: { product: Product }) {
 
       {/* AR target */}
       <div className="flex items-center gap-3 border-l-4 border-primary bg-brand-soft px-3 py-3">
-        <div className="relative size-14 shrink-0 overflow-hidden rounded-md border border-border bg-background">
+        <div className="relative size-36 shrink-0 overflow-hidden rounded-md border border-border bg-background">
           <Image
             src={product.arImage ? `/products/${product.arImage}` : "/placeholder.svg"}
             alt={`Imagen AR de ${product.name}`}
             fill
-            sizes="56px"
+            sizes="144px"
             className="object-cover"
           />
-          <span className="pointer-events-none absolute inset-x-0 top-0 h-0.5 animate-ar-scan bg-primary/80" />
         </div>
         <div className="min-w-0">
           <p className="flex items-center gap-1.5 text-sm font-bold text-primary">
