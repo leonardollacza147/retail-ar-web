@@ -22,10 +22,13 @@ import {
 import { ChatWidget } from "@/components/chat-widget";
 
 function Storefront() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const {
+      products,
+      setProducts,
+      openDrawer,
+      setOpenDrawer
+  } = useStore();
   const [activeCategory, setActiveCategory] = useState<string>("Todos");
-
-  const { openDrawer, setOpenDrawer } = useStore();
 
   useEffect(() => {
     async function loadProducts() {

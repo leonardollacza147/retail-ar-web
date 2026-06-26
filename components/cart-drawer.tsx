@@ -36,7 +36,11 @@ export function CartDrawerContent() {
         <li key={product.id} className="flex gap-4 px-6 py-4">
           <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-secondary">
             <Image
-              src={product.image || "/placeholder.svg"}
+              src={
+                product.image
+                  ? `/products/${product.image}`
+                  : "/placeholder.svg"
+              }
               alt={product.name}
               fill
               sizes="80px"

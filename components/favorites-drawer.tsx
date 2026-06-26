@@ -2,11 +2,17 @@
 
 import Image from "next/image"
 import { Heart, ShoppingCart, Trash2 } from "lucide-react"
-import { formatSoles, products } from "@/lib/products"
+import { formatSoles } from "@/lib/products"
 import { useStore } from "@/components/store-provider"
 
 export function FavoritesDrawerContent() {
-  const { favorites, toggleFavorite, addToCart, setOpenDrawer } = useStore()
+  const {
+    products,
+    favorites,
+    toggleFavorite,
+    addToCart,
+    setOpenDrawer
+  } = useStore()
   const favProducts = products.filter((p) => favorites.includes(p.id))
 
   if (favProducts.length === 0) {
@@ -37,7 +43,11 @@ export function FavoritesDrawerContent() {
         <li key={product.id} className="flex gap-4 px-6 py-4">
           <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-secondary">
             <Image
-              src={product.image || "/placeholder.svg"}
+              src={
+                  product.image
+                    ? `/products/${product.image}`
+                    : "/placeholder.svg"
+                }
               alt={product.name}
               fill
               sizes="80px"
@@ -78,7 +88,7 @@ export function FavoritesDrawerFooter() {
   if (favorites.length === 0) return null
   return (
     <button
-      onClick={() => addAllFavoritesToCart(products)}
+      onClick={() => addAllFavoritesToCart()}
       className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90"
     >
       <ShoppingCart className="size-4" />

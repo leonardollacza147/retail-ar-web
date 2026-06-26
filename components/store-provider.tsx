@@ -11,6 +11,9 @@ export type CartItem = {
 type DrawerKind = "cart" | "favorites" | null
 
 type StoreContextValue = {
+  products: Product[]
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>
+
   cart: CartItem[]
   favorites: string[]
   cartCount: number
@@ -25,7 +28,7 @@ type StoreContextValue = {
   updateQuantity: (id: string, quantity: number) => void
   toggleFavorite: (id: string) => void
   isFavorite: (id: string) => boolean
-  addAllFavoritesToCart: (allProducts: Product[]) => void
+  addAllFavoritesToCart: () => void
 }
 
 const StoreContext = createContext<StoreContextValue | null>(null)
@@ -34,6 +37,7 @@ const IGV_RATE = 0.18
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
   const [openDrawer, setOpenDrawer] = useState<DrawerKind>(null)
 
@@ -75,11 +79,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const isFavorite = (id: string) => favorites.includes(id)
 
-  const addAllFavoritesToCart = (allProducts: Product[]) => {
-    const favProducts = allProducts.filter((p) => favorites.includes(p.id))
-    favProducts.forEach((p) => addToCart(p))
-    setOpenDrawer("cart")
-  }
+  const addAllFavoritesToCart = () => {
+  const favProducts = products.filter((p) =>
+    favorites.includes(p.id)
+  )
+
+  favProducts.forEach((p) => addToCart(p))
+
+  setOpenDrawer("cart")
+}
 
   const value = useMemo<StoreContextValue>(() => {
     const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
@@ -90,6 +98,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const igv = subtotal * IGV_RATE
     const total = subtotal + igv
     return {
+      products,
+      setProducts,
       cart,
       favorites,
       cartCount,
@@ -107,7 +117,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addAllFavoritesToCart,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart, favorites, openDrawer])
+  }, [products, cart, favorites, openDrawer])
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
 }
