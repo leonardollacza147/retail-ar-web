@@ -34,10 +34,13 @@ export function Hero({ onViewCatalog }: { onViewCatalog: () => void }) {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
-            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90">
-              <Smartphone className="size-5" />
-              Descargar App RetailAR
-            </button>
+                        <a href="/retail-ar.apk" download="RetailAR.apk">
+              <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90">
+                <Smartphone className="size-5" />
+                Descargar App RetailAR
+              </button>
+            </a>
+            
             <button
               onClick={onViewCatalog}
               className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-6 py-3.5 text-sm font-semibold text-white ring-1 ring-inset ring-white/20 transition-colors hover:bg-white/20"
@@ -45,7 +48,6 @@ export function Hero({ onViewCatalog }: { onViewCatalog: () => void }) {
               Ver catálogo
             </button>
           </div>
-
 
         </div>
       </div>
