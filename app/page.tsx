@@ -13,6 +13,7 @@ import {
   FavoritesDrawerFooter,
 } from "@/components/favorites-drawer"
 import { CartDrawerContent, CartDrawerFooter } from "@/components/cart-drawer"
+import { ChatWidget } from "@/components/chat-widget"
 
 function Storefront() {
   const [activeCategory, setActiveCategory] = useState<string>("Todos")
@@ -62,6 +63,8 @@ function Storefront() {
       >
         <CartDrawerContent />
       </Drawer>
+
+      <ChatWidget />
     </div>
   )
 }
