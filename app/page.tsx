@@ -1,32 +1,60 @@
-"use client"
+"use client";
 
-import { useMemo, useState } from "react"
-import { products, type Category } from "@/lib/products"
-import { StoreProvider, useStore } from "@/components/store-provider"
-import { SiteHeader } from "@/components/site-header"
-import { Hero } from "@/components/hero"
-import { ProductGrid } from "@/components/product-grid"
-import { SiteFooter } from "@/components/site-footer"
-import { Drawer } from "@/components/drawer"
+import { useEffect, useMemo, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { type Product, type Category } from "@/lib/products";
+
+import { StoreProvider, useStore } from "@/components/store-provider";
+import { SiteHeader } from "@/components/site-header";
+import { Hero } from "@/components/hero";
+import { ProductGrid } from "@/components/product-grid";
+import { SiteFooter } from "@/components/site-footer";
+import { Drawer } from "@/components/drawer";
 import {
   FavoritesDrawerContent,
   FavoritesDrawerFooter,
-} from "@/components/favorites-drawer"
-import { CartDrawerContent, CartDrawerFooter } from "@/components/cart-drawer"
-import { ChatWidget } from "@/components/chat-widget"
+} from "@/components/favorites-drawer";
+import {
+  CartDrawerContent,
+  CartDrawerFooter,
+} from "@/components/cart-drawer";
+import { ChatWidget } from "@/components/chat-widget";
 
 function Storefront() {
-  const [activeCategory, setActiveCategory] = useState<string>("Todos")
-  const { openDrawer, setOpenDrawer } = useStore()
+  const [products, setProducts] = useState<Product[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>("Todos");
+
+  const { openDrawer, setOpenDrawer } = useStore();
+
+  useEffect(() => {
+    async function loadProducts() {
+      const snapshot = await getDocs(collection(db, "productos_retail"));
+
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Product[];
+
+      setProducts(data);
+    }
+
+    loadProducts();
+  }, []);
 
   const filtered = useMemo(() => {
-    if (activeCategory === "Todos") return products
-    return products.filter((p) => p.category === (activeCategory as Category))
-  }, [activeCategory])
+    if (activeCategory === "Todos") return products;
+
+    return products.filter(
+      (p) => p.category === (activeCategory as Category)
+    );
+  }, [products, activeCategory]);
 
   const scrollToCatalog = () => {
-    document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" })
-  }
+    document
+      .getElementById("catalogo")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
@@ -37,6 +65,7 @@ function Storefront() {
 
       <main className="flex-1">
         <Hero onViewCatalog={scrollToCatalog} />
+
         <ProductGrid
           products={filtered}
           activeCategory={activeCategory}
@@ -66,7 +95,7 @@ function Storefront() {
 
       <ChatWidget />
     </div>
-  )
+  );
 }
 
 export default function Page() {
@@ -74,5 +103,5 @@ export default function Page() {
     <StoreProvider>
       <Storefront />
     </StoreProvider>
-  )
+  );
 }
