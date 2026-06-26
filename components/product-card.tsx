@@ -20,7 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-secondary">
         <Image
-          src={product.image || "/placeholder.svg"}
+          src={product.image ? `/products/${product.image}` : "/placeholder.svg"}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -56,7 +56,7 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="flex items-center gap-3 border-l-4 border-primary bg-brand-soft px-3 py-3">
         <div className="relative size-14 shrink-0 overflow-hidden rounded-md border border-border bg-background">
           <Image
-            src={product.arImage || "/placeholder.svg"}
+            src={product.arImage ? `/products/${product.arImage}` : "/placeholder.svg"}
             alt={`Imagen AR de ${product.name}`}
             fill
             sizes="56px"
