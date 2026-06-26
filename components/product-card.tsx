@@ -96,7 +96,15 @@ export function ProductCard({ product }: { product: Product }) {
         </p>
 
         <button
-          onClick={() => addToCart(product)}
+          onClick={() => {
+            const confirmar = window.confirm(
+              `¿Estás seguro de que deseas agregar "${product.name}" al carrito?`
+            )
+
+            if (confirmar) {
+              addToCart(product)
+            }
+          }}
           className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90"
         >
           <ShoppingCart className="size-4" />
